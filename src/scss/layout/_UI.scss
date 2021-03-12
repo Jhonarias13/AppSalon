@@ -1,17 +1,20 @@
-html {}
-
 body {
-    overflow: hidden; // atasca la ventana del DOM tomando la altura total y dejandola fija
     background-color: $negro;
+    @include tablet {
+        overflow: hidden; // atasca la ventana del DOM tomando la altura total y dejandola fija
+    }
 }
 
 .contenedor-estetica {
     @include tablet {
         height: 100vh;
-        @include grid(2, $separacion);
+        @include grid(2, 0);
     }
     .imagen {
-        height: 30rem;
+        @include tablet {
+            height: 30rem;
+        }
+        height: 20rem;
         background-image: url('../img/1.webp');
         background-size: cover;
         background-position: center center;
@@ -22,7 +25,16 @@ body {
 }
 
 .app {
+    overflow: scroll;
     width: 95%;
     margin: 0 auto;
     padding-top: $separacion / 2;
+}
+
+.seccion {
+    display: none;
+    margin-top: $separacion / 2;
+    &:first-of-type {
+        display: block;
+    }
 }

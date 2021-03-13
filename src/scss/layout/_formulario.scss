@@ -1,0 +1,26 @@
+.formulario {
+    color: $blanco;
+    @include grid(1, 2rem);
+    input {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    label {
+        display: inline-block;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+    }
+    @include tablet {
+        .campo {
+            display: grid;
+            grid-template-columns: 20% 80%;
+            label {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0;
+                font-size: 2rem;
+            }
+        }
+    }
+}

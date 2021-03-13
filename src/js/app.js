@@ -1,6 +1,15 @@
 //variables globales.. disponible a todas las funciones
 let pagina = 1;
 
+const cita = {
+    nombre: '',
+    celular: '',
+    fecha: '',
+    hora: '',
+    servicios: []
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     iniciarApp();
     mostrarServicios();
@@ -8,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // funcion que inicia la App
 function iniciarApp() {
-    console.log('iniciando App...');
+    // console.log('iniciando App...');
 
     // resalta el div actual segun el div que se presiona
     mostrarSeccion();
@@ -22,6 +31,13 @@ function iniciarApp() {
 
     //comprueba la pagina actual para ocultar o mostrar
     botonesPaginador();
+
+    // muestra el resumen de la cita o mensaje de error en caso de no pasar la validacion
+    mostrarResumen();
+
+
+    // funcion para almacenar el nombre de la cita en el objeto
+    nombreCita();
 }
 
 
@@ -140,12 +156,43 @@ function seleccionarServicio(e) {
 
     if (elemento.classList.contains('seleccionado')) {
         elemento.classList.remove('seleccionado');
+
+
+        const id = parseInt(elemento.dataset.idServicios);
+        // console.log(id);
+
+
+        eliminarServicio(id);
     } else {
         elemento.classList.add('seleccionado');
+
+        const servicioObj = {
+                id: parseInt(elemento.dataset.idServicios),
+                nombre: elemento.firstElementChild.textContent,
+                precio: elemento.firstElementChild.nextElementSibling.textContent
+            }
+            // console.log(servicioObj);
+
+        agregarServicio(servicioObj);
     }
+}
+// funcion para eliminar servicios del objeto
+function eliminarServicio(id) {
+    const { servicios } = cita;
+    //con la funcion .filter() se trae los id que no estan
+    cita.servicios = servicios.filter(servicio => servicio.id != id);
+    // console.log(cita);
+}
+// funcion para agregar los servicios al objeto
+function agregarServicio(servicioObj) {
+    // console.log('agregando...');
+    const { servicios } = cita;
+    cita.servicios = [...servicios, servicioObj]; //forma de copiar un arreglo
+    console.log(cita);
 
 
 }
+
 
 // paginadores
 function paginaSiguiente() {
@@ -156,7 +203,7 @@ function paginaSiguiente() {
 
 
         botonesPaginador();
-        console.log(pagina);
+        // console.log(pagina);
 
     })
 
@@ -168,7 +215,7 @@ function paginaAnterior() {
         pagina--;
 
         botonesPaginador();
-        console.log(pagina);
+        // console.log(pagina);
 
     })
 
@@ -192,4 +239,39 @@ function botonesPaginador() {
     }
 
     mostrarSeccion();
+}
+
+function mostrarResumen() {
+    // destructuring
+    const { nombre, fecha, hora, servicios } = cita;
+
+
+    // seleccionar resumen 
+
+    document.querySelector('#paso-3').classList.add('contenido-resumen');
+
+    const resumenDiv = document.querySelector('.contenido-resumen');
+
+
+    // validacion del objeto
+    if (Object.values(cita).includes('')) {
+        const noServicios = document.createElement('P');
+        noServicios.textContent = '¡Faltan datos para agendar tu cita!';
+
+        noServicios.classList.add('invalidar-cita');
+
+        //agregar a resumenDiv
+
+
+        resumenDiv.appendChild(noServicios);
+    }
+}
+// funcion pra obtener el nombre del input del formulario
+function nombreCita() {
+    const nombreInput = document.querySelector('#nombre');
+    nombreInput.addEventListener('input', () => {
+        console.log(nombreInput.value);
+
+    })
+
 }

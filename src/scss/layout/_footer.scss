@@ -11,8 +11,8 @@
             font-size: 1.6rem;
             transition: all ease-in .2s;
             &:hover {
-                -webkit-transform: rotate(90deg);
-                transform: rotate(90deg);
+                // -webkit-transform: rotate(90deg);
+                // transform: rotate(90deg);
                 opacity: .7;
             }
         }

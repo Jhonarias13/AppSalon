@@ -1,4 +1,5 @@
 .formulario {
+    position: relative;
     color: $blanco;
     @include grid(1, 2rem);
     input {
@@ -25,6 +26,18 @@
             }
         }
     }
+    p {
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+        right: 0;
+        color: $rojo;
+        font-size: 1.5rem;
+        margin: 0;
+        @include tablet {
+            bottom: -30px;
+        }
+    }
 }
 
 .alerta {
@@ -35,4 +48,8 @@
     &.error {
         background-color: $rojo;
     }
+}
+
+.hora-invalida {
+    border: 3px solid $rojo!important;
 }

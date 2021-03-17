@@ -47,6 +47,9 @@ function iniciarApp() {
 
     // deshabilita dias pasados
     deshabilitarFechaAnterior();
+
+    // almacena la hora de la cita en el objecto
+    horaCita();
 }
 
 
@@ -241,6 +244,9 @@ function botonesPaginador() {
     } else if (pagina === 3) {
         paginaSiguiente.classList.add('ocultar');
         paginaAnterior.classList.remove('ocultar');
+
+
+        mostrarResumen(); //estamos en la pagina 3, carga el resumen de la cita
     } else {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.remove('ocultar');
@@ -252,28 +258,31 @@ function botonesPaginador() {
 
 function mostrarResumen() {
     // destructuring
-    const { nombre, fecha, hora, servicios } = cita;
-
+    const { nombre, celular, fecha, hora, servicios } = cita;
 
     // seleccionar resumen 
-
-    document.querySelector('#paso-3').classList.add('contenido-resumen');
-
+    // document.querySelector('#paso-3').classList.add('contenido-resumen');
     const resumenDiv = document.querySelector('.contenido-resumen');
 
 
+    //limpia el HTML previo
+    while (resumenDiv.firstChild) {
+        resumenDiv.removeChild(resumenDiv.firstChild);
+    }
     // validacion del objeto
     if (Object.values(cita).includes('')) {
         const noServicios = document.createElement('P');
         noServicios.textContent = '¡Faltan datos para agendar tu cita!';
-
         noServicios.classList.add('invalidar-cita');
-
         //agregar a resumenDiv
-
-
         resumenDiv.appendChild(noServicios);
+        return;
     }
+    // mostrar resumen
+    console.log('todo bien');
+
+    const nombreCita = document.createElement('P');
+    nombreCita.textContent = `<span>Nombre: ${nombre}</span>`
 }
 // funcion pra obtener el nombre del input del formulario
 function nombreCita() {
@@ -294,7 +303,7 @@ function nombreCita() {
             }
             cita.nombre = nombreTexto;
             // console.log('nombre valido');
-            // console.log(cita);
+            console.log(cita);
         }
     });
 }
@@ -315,7 +324,7 @@ function numeroTelefono() {
             }
             // console.log('numero valido');
             cita.celular = telefono;
-            // console.log(cita);
+            console.log(cita);
         }
     })
 }
@@ -370,7 +379,7 @@ function fechaCita() {
             mostrarAlerta('No hay servicio los domingos', 'error');
         } else {
             cita.fecha = fechaInput.value;
-            // console.log(cita);
+            console.log(cita);
 
         }
     })
@@ -384,22 +393,50 @@ function deshabilitarFechaAnterior() {
     const mes = fechaAhora.getMonth() + 1;
     const dia = fechaAhora.getDate();
 
-    // agrega un cero si el dia es menor al dia 10
+    // agrega un cero si el mes es menor al mes 10
     if (mes < 10) {
-        mes = `0${mes}`;
-        const fechaDeshabilitar = `${year}-${mes}-${dia}`;
+        mesMenor = `0${mes}`;
+        const fechaDeshabilitar = `${year}-${mesMenor}-${dia}`;
         inputFecha.min = fechaDeshabilitar;
     } else {
         fechaDeshabilitar = `${year}-${mes}-${dia}`;
         inputFecha.min = fechaDeshabilitar;
     }
+}
 
-    // } else {
-    //     
-    // }
-
-
+function horaCita() {
+    const inputHora = document.querySelector('#hora');
 
 
+    inputHora.addEventListener('input', e => {
+
+
+        const horaCita = e.target.value
+        const hora = horaCita.split(':');
+
+        if (hora[0] >= 8 && hora[0] <= 19) {
+            cita.hora = horaCita;
+            console.log(cita);
+
+        } else {
+            // vaciar la casilla de la hora
+            inputHora.classList.add('hora-invalida');
+            inputHora.focus();
+            inputHora.value = '';
+
+            //agregar texto debajo dej input de hora
+            const campoHora = document.querySelector('.formulario');
+            horatexto = document.createElement('P');
+            horatexto.textContent = "hora invalida, intente entre las 8:00 AM y las 7:00 PM";
+            campoHora.appendChild(horatexto);
+
+            setTimeout(() => {
+                horatexto.remove();
+                inputHora.classList.remove('hora-invalida');
+            }, 4000)
+
+        }
+
+    })
 
 }

@@ -38,6 +38,15 @@ function iniciarApp() {
 
     // funcion para almacenar el nombre de la cita en el objeto
     nombreCita();
+
+    //funcion para almacenar el numero del telefono
+    numeroTelefono();
+
+    // almacena la fecha en la cita del objeto
+    fechaCita();
+
+    // deshabilita dias pasados
+    deshabilitarFechaAnterior();
 }
 
 
@@ -269,9 +278,128 @@ function mostrarResumen() {
 // funcion pra obtener el nombre del input del formulario
 function nombreCita() {
     const nombreInput = document.querySelector('#nombre');
-    nombreInput.addEventListener('input', () => {
-        console.log(nombreInput.value);
 
+    nombreInput.addEventListener('input', (e) => {
+        nombreTexto = e.target.value.trim(); // trim() elimina espacio en blanco al final y al comienzo del input
+
+        // validacion para que nombretexto tenga algo
+
+        if (nombreTexto === '' || nombreTexto.length <= 3) {
+            mostrarAlerta('¡Nombre NO Válido!', 'error');
+
+        } else {
+            const alerta = document.querySelector('.alerta');
+            if (alerta) {
+                alerta.remove();
+            }
+            cita.nombre = nombreTexto;
+            // console.log('nombre valido');
+            // console.log(cita);
+        }
+    });
+}
+
+function numeroTelefono() {
+    const numero = document.querySelector('#celular');
+
+    numero.addEventListener('input', (e) => {
+        const telefono = e.target.value.trim();
+
+        if (telefono.length < 10) {
+            mostrarAlerta('numero invalido', 'error');
+
+        } else {
+            const alerta = document.querySelector('.alerta');
+            if (alerta) {
+                alerta.remove();
+            }
+            // console.log('numero valido');
+            cita.celular = telefono;
+            // console.log(cita);
+        }
     })
+}
+
+function mostrarAlerta(mensaje, tipo) {
+
+    // si hay una alerta previa, no mostrar otra
+    const alertaPrevia = document.querySelector('.alerta');
+    if (alertaPrevia) {
+        return;
+    }
+    // console.log('el mensaje es', mensaje);
+
+    // crear alerta en html 
+    const alerta = document.createElement('DIV');
+    alerta.textContent = mensaje;
+    alerta.classList.add('alerta');
+
+    // si la alerta es de tipo error, entonces, agrega una segunda clase llamada error
+    if (tipo === 'error') {
+        alerta.classList.add('error');
+    }
+    console.log(alerta);
+
+    //. insertar en el html 
+
+    const formulario = document.querySelector('.formulario');
+    formulario.appendChild(alerta);
+
+    // eliminar la alerta despues de 3sg
+
+    setTimeout(() => {
+        alerta.remove();
+    }, 3000);
+
+
+}
+
+
+function fechaCita() {
+    const fechaInput = document.querySelector('#fecha');
+    fechaInput.addEventListener('input', e => {
+        // console.log(e.target.value);
+
+        const dia = new Date(e.target.value).getUTCDay(); // getUTCDay retorna los dias de la semana como numero del 0 - 6
+        // console.log(dia);
+
+        // if para deshabilitar los domingos 
+        if ([0].includes(dia)) {
+            e.preventDefault();
+            fechaInput.value = '';
+            mostrarAlerta('No hay servicio los domingos', 'error');
+        } else {
+            cita.fecha = fechaInput.value;
+            // console.log(cita);
+
+        }
+    })
+}
+
+function deshabilitarFechaAnterior() {
+    const inputFecha = document.querySelector('#fecha');
+
+    const fechaAhora = new Date();
+    const year = fechaAhora.getFullYear();
+    const mes = fechaAhora.getMonth() + 1;
+    const dia = fechaAhora.getDate();
+
+    // agrega un cero si el dia es menor al dia 10
+    if (mes < 10) {
+        mes = `0${mes}`;
+        const fechaDeshabilitar = `${year}-${mes}-${dia}`;
+        inputFecha.min = fechaDeshabilitar;
+    } else {
+        fechaDeshabilitar = `${year}-${mes}-${dia}`;
+        inputFecha.min = fechaDeshabilitar;
+    }
+
+    // } else {
+    //     
+    // }
+
+
+
+
 
 }

@@ -26,3 +26,13 @@
         }
     }
 }
+
+.alerta {
+    display: block;
+    text-align: center;
+    border-radius: 1rem;
+    padding: $separacion / 2;
+    &.error {
+        background-color: $rojo;
+    }
+}

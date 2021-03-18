@@ -5,3 +5,35 @@
     margin: $separacion /2;
     text-transform: uppercase;
 }
+
+.contenido-resumen {
+    color: $blanco;
+    span {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    p {
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+    ul {
+        padding: 1rem .5rem;
+        border: 2px solid $rojo;
+        border-radius: 1rem;
+        font-size: 4rem;
+        font-weight: $bold;
+        margin: $separacion / 2 0;
+        text-transform: uppercase;
+        color: $azul;
+        text-align: center;
+        li {
+            padding-left: 2rem;
+            margin-top: $separacion / 3;
+            font-size: 2rem;
+            color: $blanco;
+            span {
+                font-weight: $regular;
+            }
+        }
+    }
+}

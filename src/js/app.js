@@ -278,11 +278,40 @@ function mostrarResumen() {
         resumenDiv.appendChild(noServicios);
         return;
     }
-    // mostrar resumen
+    // crear elementos para el resumen
     console.log('todo bien');
-
     const nombreCita = document.createElement('P');
-    nombreCita.textContent = `<span>Nombre: ${nombre}</span>`
+    nombreCita.innerHTML = `<span>Nombre:</span> ${nombre}`;
+
+    const celularCita = document.createElement('P');
+    celularCita.innerHTML = `<span>Celular:</span> ${celular}`;
+
+    const horaCita = document.createElement('P');
+    horaCita.innerHTML = `<span>Hora:</span> ${hora}`;
+
+    const fechaCita = document.createElement('P');
+    fechaCita.innerHTML = `<span>fecha:</span> ${fecha}`;
+
+    const servicioList = document.createElement('UL');
+    servicioList.innerHTML = `Servicios`;
+
+
+    for (i = 0; i < servicios.length; i++) {
+
+        const nombreLi = document.createElement('LI');
+        nombreLi.innerHTML = `${servicios[i].nombre}: <span>${servicios[i].precio}</span>`;
+        servicioList.appendChild(nombreLi);
+        // console.log(nombreLi);
+
+    }
+
+    // agregar los elementos al DOM
+    resumenDiv.appendChild(nombreCita);
+    resumenDiv.appendChild(fechaCita);
+    resumenDiv.appendChild(horaCita);
+    resumenDiv.appendChild(celularCita);
+    resumenDiv.appendChild(servicioList);
+
 }
 // funcion pra obtener el nombre del input del formulario
 function nombreCita() {
@@ -376,11 +405,10 @@ function fechaCita() {
         if ([0].includes(dia)) {
             e.preventDefault();
             fechaInput.value = '';
-            mostrarAlerta('No hay servicio los domingos', 'error');
+            mostrarAlerta('No tenemos servicios los domingos :( ', 'error');
         } else {
             cita.fecha = fechaInput.value;
             console.log(cita);
-
         }
     })
 }
@@ -406,8 +434,6 @@ function deshabilitarFechaAnterior() {
 
 function horaCita() {
     const inputHora = document.querySelector('#hora');
-
-
     inputHora.addEventListener('input', e => {
 
 
@@ -422,7 +448,9 @@ function horaCita() {
             // vaciar la casilla de la hora
             inputHora.classList.add('hora-invalida');
             inputHora.focus();
-            inputHora.value = '';
+            setTimeout(() => {
+                inputHora.value = '';
+            }, 1000)
 
             //agregar texto debajo dej input de hora
             const campoHora = document.querySelector('.formulario');

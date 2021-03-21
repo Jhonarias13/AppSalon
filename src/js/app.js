@@ -279,7 +279,9 @@ function mostrarResumen() {
         return;
     }
     // crear elementos para el resumen
-    console.log('todo bien');
+    const headingCita = document.createElement('H3');
+    headingCita.textContent = 'Resumen Cita';
+
     const nombreCita = document.createElement('P');
     nombreCita.innerHTML = `<span>Nombre:</span> ${nombre}`;
 
@@ -292,25 +294,55 @@ function mostrarResumen() {
     const fechaCita = document.createElement('P');
     fechaCita.innerHTML = `<span>fecha:</span> ${fecha}`;
 
-    const servicioList = document.createElement('UL');
-    servicioList.innerHTML = `Servicios`;
+    const servicioList = document.createElement('DIV');
+    servicioList.classList.add('resumen-servicios');
 
+    const resumenServicios = document.createElement('H3');
+    resumenServicios.textContent = 'resumen servicios';
+    servicioList.appendChild(resumenServicios);
 
+    const divPagar = document.createElement('DIV');
+    divPagar.classList.add('seccion-pagar');
+
+    let precio = 0;
+    // itera cada elemento del objeto para extraer el nombre del servicio y el pr
     for (i = 0; i < servicios.length; i++) {
 
-        const nombreLi = document.createElement('LI');
-        nombreLi.innerHTML = `${servicios[i].nombre}: <span>${servicios[i].precio}</span>`;
-        servicioList.appendChild(nombreLi);
+        const nombreServicio = document.createElement('P');
+        nombreServicio.innerHTML = `${servicios[i].nombre} <span>${servicios[i].precio}</span>`;
+        servicioList.appendChild(nombreServicio);
         // console.log(nombreLi);
-
+        let precioServicio = servicios[i].precio.split('$')
+        precio += parseInt(precioServicio[1].trim());
     }
 
+
+
+
     // agregar los elementos al DOM
+
+    resumenDiv.appendChild(headingCita);
     resumenDiv.appendChild(nombreCita);
     resumenDiv.appendChild(fechaCita);
     resumenDiv.appendChild(horaCita);
     resumenDiv.appendChild(celularCita);
+
+
     resumenDiv.appendChild(servicioList);
+
+    const cantidadPagar = document.createElement('P');
+    cantidadPagar.classList.add('total-pagar');
+    cantidadPagar.innerHTML = `<span>Total a pagar:</span> $${precio}`;
+
+    const botonPagar = document.createElement('BUTTON');
+    botonPagar.classList.add('btn-pagar');
+    botonPagar.setAttribute('id', "pagar"); // agrego atributo de id al boton
+    botonPagar.textContent = 'Pagar';
+
+    divPagar.appendChild(cantidadPagar);
+    divPagar.appendChild(botonPagar);
+
+    resumenDiv.appendChild(divPagar);
 
 }
 // funcion pra obtener el nombre del input del formulario

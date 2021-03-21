@@ -9,31 +9,53 @@
 .contenido-resumen {
     color: $blanco;
     span {
+        margin-top: 1rem;
         font-weight: bold;
         text-transform: uppercase;
+        color: $azul;
     }
     p {
         margin-bottom: 1rem;
         text-align: left;
     }
-    ul {
-        padding: 1rem .5rem;
-        border: 2px solid $rojo;
-        border-radius: 1rem;
-        font-size: 4rem;
-        font-weight: $bold;
-        margin: $separacion / 2 0;
+    h3 {
         text-transform: uppercase;
-        color: $azul;
-        text-align: center;
-        li {
-            padding-left: 2rem;
-            margin-top: $separacion / 3;
-            font-size: 2rem;
-            color: $blanco;
-            span {
-                font-weight: $regular;
-            }
+        font-size: 2rem;
+        margin: $separacion / 2 0;
+    }
+}
+
+.resumen-servicios {
+    p {
+        padding-bottom: 1rem;
+        border-bottom: 1px dotted $blanco;
+    }
+}
+
+.total-pagar {
+    span {
+        display: inline-block;
+    }
+}
+
+.seccion-pagar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    button {
+        border: none;
+        border-radius: 1rem;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        color: $blanco;
+        font-weight: $bold;
+        background-image: $azulDeg;
+        -webkit-background-clip: background;
+        &:hover {
+            cursor: pointer;
         }
+    }
+    p {
+        margin: 0;
     }
 }

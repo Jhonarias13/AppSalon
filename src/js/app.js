@@ -201,8 +201,6 @@ function agregarServicio(servicioObj) {
     const { servicios } = cita;
     cita.servicios = [...servicios, servicioObj]; //forma de copiar un arreglo
     console.log(cita);
-
-
 }
 
 
@@ -212,7 +210,6 @@ function paginaSiguiente() {
     const paginaSiguiente = document.querySelector('#siguiente');
     paginaSiguiente.addEventListener('click', () => {
         pagina++;
-
 
         botonesPaginador();
         // console.log(pagina);

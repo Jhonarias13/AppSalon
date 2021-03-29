@@ -98,12 +98,17 @@ function cambiarSeccion() {
 //funcion asincrona para consultas de datos de un archivo JSON
 async function mostrarServicios() {
     try {
-        const resultado = await fetch('./servicios.json');
+
+        const url = "http://localhost:5000/servicios.php";
+        const resultado = await fetch(url);
         const db = await resultado.json();
-        const { servicios } = db; // ==> Destructuring
+
+        // const { servicios } = db; // ==> Destructuring
+        // console.log(db);
+
 
         //generar el HTML
-        servicios.forEach(servicio => {
+        db.forEach(servicio => {
             const { id, nombre, precio } = servicio;
 
             //DOM Scripting
@@ -148,7 +153,7 @@ async function mostrarServicios() {
 
 
     } catch (error) {
-        console.log('error..');
+        console.log('Ha ocurrido un error');
 
     }
 }
